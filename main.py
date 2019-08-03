@@ -2,21 +2,21 @@
 import subprocess
 import json
 import threading
-import os
-import time
 
 from BaseTeam import BaseTeam
+from Private import Private
 
 bot_name = ""
 active_teams = []
 
-bt = BaseTeam("private")
+# An example module for PM'ing
+bt = Private("private")
 active_teams.append(bt)
 
 
 def main():
     global kbproc
-    kbproc = subprocess.Popen(["keybase", "chat", "api-listen", "--hide-exploding"], universal_newlines=True, bufsize=1,
+    kbproc = subprocess.Popen(["keybase", "chat", "api-listen", "--hide-exploding"],universal_newlines=True, bufsize=1,
                               stdout=subprocess.PIPE)
 
     while True:

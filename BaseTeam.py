@@ -18,7 +18,7 @@ class BaseTeam:
         messages = [
             'Del Monte Green Beans.', 'I am not prepared for that.',
             'Help?', 'I got nothing..', 'Who are you?', 'Hush your buckets..',
-            'A what? A stack?', 'Reach out to an admin.'
+            'A what? A stack?'
         ]
         message = random.choice(messages)
         if channel:

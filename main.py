@@ -9,7 +9,7 @@ from pykeybasebot import Bot, ContentType
 from BaseTeam import BaseTeam
 from Private import Private
 
-bot_name = ""
+bot_name = "rudi9719"
 
 active_teams = []
 
@@ -22,15 +22,16 @@ class Handler:
         if event.msg.content.type != ContentType.TEXT:
             return
         else:
-           print(event) 
-
+           #print(event) 
+           print(event.msg.channel.name, event.msg.content.text.body, event.msg.sender.username)
+           if isinstance(event.msg.channel.topic_name, str):
+                print(event.msg.channel.topic_name)
     def process_kbmsg(kbmsg):
-        kbobj = json.loads(kbmsg)
-        if "text" not in kbobj["msg"]["content"]["type"]:
-            return
-        sender = kbobj["msg"]["sender"]["username"]
-        message = kbobj["msg"]["content"]["text"]["body"]
-        team = kbobj["msg"]["channel"]["name"]  # Not sure why, channel is msg.channel.topic_name
+        channel = event.msg.channel.topic_name
+        message = event.msg.content.text.body
+        sender = event.msg.sender.username #kbobj["msg"]["sender"]["username"]
+        team = event.msg.channel.name
+        # team = kbobj["msg"]["channel"]["name"]  # Not sure why, channel is msg.channel.topic_name
         if bot_name in kbobj["msg"]["channel"]["name"]:
             # If someone PM's the bot
             bt.random_message(sender=sender)

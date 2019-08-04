@@ -9,8 +9,7 @@ from pykeybasebot import Bot, ContentType
 from BaseTeam import BaseTeam
 from Private import Private
 
-bot_name = "turinga"
-paperkey = os.environ['KEYBASE_PAPERKEY']
+bot_name = ""
 
 active_teams = []
 
@@ -23,7 +22,7 @@ class Handler:
         if event.msg.content.type != ContentType.TEXT:
             return
         else:
-            pass
+           print(event) 
 
     def process_kbmsg(kbmsg):
         kbobj = json.loads(kbmsg)
@@ -60,7 +59,6 @@ listen_options = {
              }
 bot = Bot(
         username=bot_name,
-        paperkey=paperkey,
         handler=Handler(),
 )
 asyncio.run(bot.start(listen_options))

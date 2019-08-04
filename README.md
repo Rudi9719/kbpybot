@@ -10,3 +10,6 @@ My main loop is currently causing the Keybase process to devour CPUs
 
 # Running
 To run the bot, you must supply a bot_name to the main.py and run the bot on a machine/user with Keybase logged in
+
+# dxb
+dxb wuz hear

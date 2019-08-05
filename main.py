@@ -4,8 +4,8 @@ import asyncio
 from pykeybasebot import Bot, ContentType
 from Private import Private
 
-bot_name = "rudi9719"
-
+bot_name = ""
+owner_name = ""
 active_teams = []
 
 # An example module for PM'ing
@@ -20,12 +20,11 @@ class Handler:
             self.process_kbmsg(event.msg.channel.name, event.msg.sender.username,
                                event.msg.content.text.body, event.msg.channel.topic_name)
 
+
     def process_kbmsg(self, team, sender, message, channel):
-        if isinstance(channel, str):
-            if "@{}".format(bot_name) in message:
-                if bot_name == sender:
-                    pass
-                else:
+        if sender != bot_name:
+            if isinstance(channel, str):
+                if "@{}".format(bot_name) in message:
                     global team_found
                     team_found = False
                     print("{} said {} in @{}#{}".format(sender, message, team, channel))
@@ -35,9 +34,11 @@ class Handler:
                             active_team.handle(channel, message, sender)
                     if not team_found:
                         bt.random_message(sender, team, channel)
-        else:
-            # Is a PM
-            bt.random_message(sender=sender)
+
+            else:
+                # Is a PM
+                print("{} said {}".format(sender, message))
+
 
 
 

@@ -1,12 +1,7 @@
 #!/usr/local/env/python3
-import subprocess
-import json
-import os
 import asyncio
-import threading
 
 from pykeybasebot import Bot, ContentType
-from BaseTeam import BaseTeam
 from Private import Private
 
 bot_name = "rudi9719"
@@ -22,34 +17,30 @@ class Handler:
         if event.msg.content.type != ContentType.TEXT:
             return
         else:
-           #print(event) 
-           print(event.msg.channel.name, event.msg.content.text.body, event.msg.sender.username)
-           if isinstance(event.msg.channel.topic_name, str):
-                print(event.msg.channel.topic_name)
-    def process_kbmsg(kbmsg):
-        channel = event.msg.channel.topic_name
-        message = event.msg.content.text.body
-        sender = event.msg.sender.username #kbobj["msg"]["sender"]["username"]
-        team = event.msg.channel.name
-        # team = kbobj["msg"]["channel"]["name"]  # Not sure why, channel is msg.channel.topic_name
-        if bot_name in kbobj["msg"]["channel"]["name"]:
-            # If someone PM's the bot
+            self.process_kbmsg(event.msg.channel.name, event.msg.sender.username,
+                               event.msg.content.text.body, event.msg.channel.topic_name)
+
+    def process_kbmsg(self, team, sender, message, channel):
+        if isinstance(channel, str):
+            if "@{}".format(bot_name) in message:
+                if bot_name == sender:
+                    pass
+                else:
+                    global team_found
+                    team_found = False
+                    print("{} said {} in @{}#{}".format(sender, message, team, channel))
+                    for active_team in active_teams:
+                        if team == active_team.team_name:
+                            team_found = True
+                            active_team.handle(channel, message, sender)
+                    if not team_found:
+                        bt.random_message(sender, team, channel)
+        else:
+            # Is a PM
             bt.random_message(sender=sender)
-        elif "@{}".format(bot_name) in message:
-            # Don't reply to myself.
-            if "{}".format(bot_name) in sender:
-                return
-            # Not a PM or from bot
-            channel = kbobj["msg"]["channel"]["topic_name"]
-            global team_found
-            team_found = False
-            print("{} said {} in @{}#{}".format(sender, message, team, channel))
-            for active_team in active_teams:
-                if team == active_team.team_name:
-                    team_found = True
-                    threading.Thread(target=active_team.handle(channel, message, sender)).start()
-            if not team_found:
-                bt.random_message(sender, team, channel)
+
+
+
 listen_options = {
             'local': True,
             'wallet': True,

@@ -6,4 +6,4 @@ class Private(BaseTeam):
         super().__init__(team_name)
 
     def handle(self, channel, message, sender):
-        pass
+        self.random_message(sender)

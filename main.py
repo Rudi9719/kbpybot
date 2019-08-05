@@ -33,7 +33,7 @@ class Handler:
                             team_found = True
                             active_team.handle(channel, message, sender)
                     if not team_found:
-                        bt.random_message(sender, team, channel)
+                        bt.send_message(channel, "I don't belong here.", team)
 
             else:
                 # Is a PM

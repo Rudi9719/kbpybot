@@ -8,8 +8,11 @@ class BaseTeam:
     def __init__(self, team_name):
         self.team_name = team_name
 
-    def send_message(self, channel, message):
-        subprocess.run(["keybase", "chat", "send", self.team_name, message, "--channel", channel])
+    def send_message(self, channel, message, team=None):
+        if team:
+            subprocess.run(["keybase", "chat", "send", team, message, "--channel", channel])
+        else:
+            subprocess.run(["keybase", "chat", "send", self.team_name, message, "--channel", channel])
 
     def handle(self, channel, message, sender):
         raise NotImplementedError

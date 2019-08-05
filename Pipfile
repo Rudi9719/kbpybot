@@ -9,4 +9,4 @@ python_version = '3.7'
 [dev-packages]
 
 [packages]
-pykeybasebot = {editable = true, ref = "xgess/updates", git = "https://github.com/keybase/pykeybasebot.git"}
+pykeybasebot = {editable = true, ref = "master", git = "https://github.com/keybase/pykeybasebot.git"}

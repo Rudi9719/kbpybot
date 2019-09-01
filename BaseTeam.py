@@ -3,12 +3,21 @@ import random
 
 
 class BaseTeam:
+    admins = []
     team_name = None
+    messages = [
+        'Del Monte Green Beans.', 'I am not prepared for that.',
+        'Help?', 'I got nothing..', 'Who are you?', 'Hush your buckets..',
+        'A what? A stack?'
+    ]
 
     def __init__(self, team_name):
         self.team_name = team_name
 
     def send_message(self, message, sender=None, team=None, channel=None):
+        sudo = False
+        if sender in self.admins:
+            sudo = True
         if team is not None and channel is not None:
             subprocess.run(["keybase", "chat", "send", team, message, "--channel", channel])
         elif team is not None and channel is None:
@@ -20,12 +29,8 @@ class BaseTeam:
         raise NotImplementedError
 
     def random_message(self, sender, team=None, channel=None):
-        messages = [
-            'Del Monte Green Beans.', 'I am not prepared for that.',
-            'Help?', 'I got nothing..', 'Who are you?', 'Hush your buckets..',
-            'A what? A stack?'
-        ]
-        message = random.choice(messages)
+
+        message = random.choice(self.messages)
         if channel:
             subprocess.run(["keybase", "chat", "send", team, message, "--channel", channel])
 

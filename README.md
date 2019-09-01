@@ -22,7 +22,7 @@ In the future I may implement starting the bot with a paper key, and/or configur
 
 * Rewrite send_message() to use the API as documented from Keybase's @dxb Kaco tool
 
-* Supply default actions in BaseTeam for team failthrough/channel agnostic commands
+* Threads? (AsyncIO, GIL vs Threads. Trying to make it efficient?)
 
 * Use the new Bot API to broadcast commands
 

@@ -12,16 +12,16 @@ active_teams = []
 bt = Private("private")
 active_teams.append(bt)
 
+
 class Handler:
     async def __call__(self, bot, event):
         if event.msg.content.type != ContentType.TEXT:
             return
         else:
-            self.process_kbmsg(event.msg.channel.name, event.msg.sender.username,
-                               event.msg.content.text.body, event.msg.channel.topic_name)
+            self.process_kbmsg(event.msg.content.text.body, event.msg.sender.username,
+                               event.msg.channel.name, event.msg.channel.topic_name)
 
-
-    def process_kbmsg(self, team, sender, message, channel):
+    def process_kbmsg(self, message, sender, team, channel):
         if sender != bot_name:
             if isinstance(channel, str):
                 if "@{}".format(bot_name) in message:
@@ -31,27 +31,25 @@ class Handler:
                     for active_team in active_teams:
                         if team == active_team.team_name:
                             team_found = True
-                            active_team.handle(channel, message, sender)
+                            active_team.handle(message, sender, channel)
                     if not team_found:
-                        bt.send_message(channel, "I don't belong here.", team)
+                        bt.send_message("I don't belong here.", team=team, channel=channel)
 
             else:
                 # Is a PM
                 print("{} said {}".format(sender, message))
 
 
-
-
 listen_options = {
-            'local': True,
-            'wallet': True,
-            'dev': True,
-            'hide-exploding': False,
-            'filter_channel': None,
-            'filter_channels': None,
-             }
+    'local': True,
+    'wallet': True,
+    'dev': True,
+    'hide-exploding': False,
+    'filter_channel': None,
+    'filter_channels': None,
+}
 bot = Bot(
-        username=bot_name,
-        handler=Handler(),
+    username=bot_name,
+    handler=Handler(),
 )
 asyncio.run(bot.start(listen_options))

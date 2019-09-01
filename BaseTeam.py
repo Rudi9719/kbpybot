@@ -8,13 +8,15 @@ class BaseTeam:
     def __init__(self, team_name):
         self.team_name = team_name
 
-    def send_message(self, channel, message, team=None):
-        if team:
+    def send_message(self, message, sender=None, team=None, channel=None):
+        if team is not None and channel is not None:
             subprocess.run(["keybase", "chat", "send", team, message, "--channel", channel])
+        elif team is not None and channel is None:
+            subprocess.run(["keybase", "chat", "send", team, message])
         else:
-            subprocess.run(["keybase", "chat", "send", self.team_name, message, "--channel", channel])
+            subprocess.run(["keybase", "chat", "send", sender, message])
 
-    def handle(self, channel, message, sender):
+    def handle(self, message, sender, team=None, channel=None):
         raise NotImplementedError
 
     def random_message(self, sender, team=None, channel=None):
